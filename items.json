@@ -1,0 +1,136 @@
+[
+  {
+    "type": "appleScriptTitledButton",
+    "width": 80,
+    "align": "left",
+    "source": {
+      "inline": "return \"⏮\""
+    },
+    "action": "appleScript",
+    "actionAppleScript": {
+      "inline": "tell application \"Spotify\" to previous track"
+    }
+  },
+  {
+    "type": "appleScriptTitledButton",
+    "width": 360,
+    "align": "left",
+    "image": {
+      "filePath": "~/Pictures/MTMR_Icons/spotify_logo.png"
+    },
+    "source": {
+      "inline": "if application \"Spotify\" is running then\n\ttell application \"Spotify\"\n\t\tif player state is playing then\n\t\t\treturn \"  \" & name of current track & \" - \" & artist of current track\n\t\telse\n\t\t\treturn \"  ⏸ Paused.\"\n\t\tend if\n\tend tell\nelse\n\treturn \"  Open Spotify to continue playing.\"\nend if"
+    },
+    "action": "appleScript",
+    "actionAppleScript": {
+      "inline": "if application \"Spotify\" is running then\n\ttell application \"Spotify\" to playpause\nelse\n\ttell application \"Spotify\" to activate\nend if"
+    },
+    "refreshInterval": 0.5
+  },
+  {
+    "type": "appleScriptTitledButton",
+    "width": 80,
+    "align": "left",
+    "source": {
+      "inline": "return \"⏭\""
+    },
+    "action": "appleScript",
+    "actionAppleScript": {
+      "inline": "tell application \"Spotify\" to next track"
+    }
+  },
+  {
+    "type": "appleScriptTitledButton",
+    "width": 180,
+    "align": "right",
+    "image": {
+      "filePath": "~/Pictures/MTMR_Icons/battery.png"
+    },
+    "source": {
+      "inline": "set battStatus to do shell script \"pmset -g batt\"\nset timeStr to do shell script \"echo \" & quoted form of battStatus & \" | grep -Eo '[0-9]+:[0-9]+' | head -n 1 || true\"\nset outTitle to \"\"\n\nif battStatus contains \"discharging\" then\n\tif timeStr is not \"\" then\n\t\tset {oldTID, AppleScript's text item delimiters} to {AppleScript's text item delimiters, \":\"}\n\t\tset h to text item 1 of timeStr\n\t\tset m to text item 2 of timeStr\n\t\tset AppleScript's text item delimiters to oldTID\n\t\tif length of h is 1 then set h to \"0\" & h\n\t\tset outTitle to h & \":\" & m & \" left.\"\n\telse\n\t\tset outTitle to \"Calculating...\"\n\tend if\nelse if battStatus contains \"charging\" then\n\tif timeStr is not \"\" then\n\t\tset {oldTID, AppleScript's text item delimiters} to {AppleScript's text item delimiters, \":\"}\n\t\tset h to text item 1 of timeStr\n\t\tset m to text item 2 of timeStr\n\t\tset AppleScript's text item delimiters to oldTID\n\t\tif length of h is 1 then set h to \"0\" & h\n\t\tset outTitle to h & \":\" & m & \" until full.\"\n\telse\n\t\tset outTitle to \"Calculating...\"\n\tend if\nelse if battStatus contains \"charged\" then\n\tset outTitle to \"Fully charged.\"\nend if\n\nreturn \"  \" & outTitle"
+    },
+    "action": "appleScript",
+    "actionAppleScript": {
+      "inline": "do shell script \"open -a coconutBattery\""
+    },
+    "refreshInterval": 60
+  },
+  {
+    "type": "illuminationDown",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+  {
+    "type": "illuminationUp",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+  {
+    "type": "brightnessDown",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+  {
+    "type": "brightnessUp",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+{
+  "type": "mute",
+  "width": 35,
+  "align": "right",
+  "bordered": false
+},
+  {
+    "type": "volumeDown",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+  {
+    "type": "volumeUp",
+    "align": "right",
+    "width": 35,
+    "bordered": false
+  },
+  {
+    "type": "swipe",
+    "fingers": 2,
+    "direction": "right",
+    "minOffset": 60,
+    "sourceApple": {
+      "inline": "tell application \"Spotify\" to next track"
+    }
+  },
+  {
+    "type": "swipe",
+    "fingers": 2,
+    "direction": "left",
+    "minOffset": 60,
+    "sourceApple": {
+      "inline": "tell application \"Spotify\" to previous track"
+    }
+  },
+  {
+    "type": "swipe",
+    "fingers": 3,
+    "direction": "right",
+    "minOffset": 2,
+    "sourceApple": {
+      "inline": "if application \"Spotify\" is running then tell application \"Spotify\" to set player position to (player position + 15)"
+    }
+  },
+  {
+    "type": "swipe",
+    "fingers": 3,
+    "direction": "left",
+    "minOffset": 2,
+    "sourceApple": {
+      "inline": "if application \"Spotify\" is running then tell application \"Spotify\" to set player position to (player position - 15)"
+    }
+  }
+]
